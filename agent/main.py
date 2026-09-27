@@ -4,11 +4,15 @@ from pathlib import Path
 from dotenv import load_dotenv
 from crewai import Agent, Crew, LLM, Process, Task
 
-from agent.tools import DatabaseMonitorTool, SendEmailTool
+try:
+    from agent.tools import DatabaseMonitorTool, SendEmailTool
+except ModuleNotFoundError:
+    from tools import DatabaseMonitorTool, SendEmailTool
 
-load_dotenv(dotenv_path=Path(__file__).resolve().parent / ".env", override=False)
+project_root = Path(__file__).resolve().parent.parent if (Path(__file__).resolve().parent / "Demo").exists() else Path(__file__).resolve().parent
+load_dotenv(dotenv_path=project_root / ".env", override=False)
 
-DB_PATH = Path(__file__).resolve().parent / "Demo" / "app.db"
+DB_PATH = project_root / "Demo" / "app.db"
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 
 openrouter_key = os.getenv("OPENROUTER_API_KEY") or os.getenv("OPENAI_API_KEY")

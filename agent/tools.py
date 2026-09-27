@@ -9,7 +9,8 @@ from pydantic import Field
 
 
 def _load_env_defaults() -> None:
-    env_path = Path(__file__).resolve().parent / ".env"
+    base_dir = Path(__file__).resolve().parent.parent if (Path(__file__).resolve().parent / "Demo").exists() else Path(__file__).resolve().parent
+    env_path = base_dir / ".env"
     if not env_path.exists():
         return
 
@@ -28,7 +29,9 @@ _load_env_defaults()
 class DatabaseMonitorTool(BaseTool):
     name: str = "Database Monitor"
     description: str = "Fetches recent access logs from the database."
-    db_path: str = Field(default_factory=lambda: str(Path(__file__).resolve().parent / "Demo" / "app.db"))
+    db_path: str = Field(default_factory=lambda: str(
+        (Path(__file__).resolve().parent.parent if (Path(__file__).resolve().parent / "Demo").exists() else Path(__file__).resolve().parent) / "Demo" / "app.db"
+    ))
 
     def _run(self) -> str:
         conn = sqlite3.connect(self.db_path)
