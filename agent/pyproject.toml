@@ -1,0 +1,16 @@
+[project]
+name = "demo-agent"
+version = "0.1.0"
+description = "Minimal pyproject for Demo agent workspace"
+requires-python = ">=3.10"
+dependencies = [
+    "crewai>=1.15.22",
+    "python-dotenv>=1.2.3",
+]
+
+[tool.setuptools]
+packages = []
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
